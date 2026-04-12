@@ -44,7 +44,7 @@ Tajamar GenAI Tasks is a comprehensive repository designed to house various task
 ## Author
 **Adnan Hamidoun**  
 [GitHub](https://github.com/adnanhamidoun)  
-[Twitter](https://twitter.com/adnanhamidoun)  
+[LinkedIn]([https://twitter.com/adnanhamidoun](https://www.linkedin.com/in/adnan-hamidoun-el-habti-252079311/))  
 
 ---
 This README file was last updated on 2026-04-12 18:34:43 UTC.
