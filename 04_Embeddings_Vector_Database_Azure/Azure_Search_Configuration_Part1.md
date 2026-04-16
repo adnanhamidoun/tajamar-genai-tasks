@@ -8,11 +8,6 @@
 
 ---
 
-> **Nota:** Este documento sigue la rúbrica de entrega. Incluye capturas y explicaciones técnicas de cada componente clave de la arquitectura RAG en Azure AI Search. El formato es minimalista y académico para facilitar su lectura y replicación.
-
-
----
-
 ## 1. Resumen ejecutivo
 
 Este documento constituye la **Parte 1** de la implementación de una arquitectura de recuperación de información aumentada (RAG) sobre Azure AI Search. Se documenta la configuración completa del pipeline de indexación automatizado mediante el asistente del portal de Azure, cubriendo las fases de ingesta de documentos, fragmentación semántica, vectorización y despliegue de un índice optimizado para búsquedas híbridas y semánticas.
