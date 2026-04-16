@@ -251,7 +251,7 @@ La solución desplegada permite la ingesta, procesamiento y consulta eficiente d
 ## Continuación: Parte 2 - Práctica en Python
 
 
-[Ir a la Parte 2: práctica_vector_search.ipynb](./practica_vector_search.ipynb)
+[Ir a la Parte 2: práctica_vector_search.ipynb](./Azure_Search_Vector_Hybrid_Semantic.ipynb)
 
 
 
