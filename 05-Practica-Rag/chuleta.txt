@@ -1,0 +1,32 @@
+
+2. El Nutricionista: El "Momento Wow" (Multi-documento y Contradicción)
+Prompt:
+
+"¿Es bueno beber leche? Compara lo que dicen mis manuales sobre esto y cita las fuentes de cada uno."
+
+Qué explicar aquí: Que el sistema no se confunde con información opuesta. Muestra cómo recupera fragmentos de dos PDFs a la vez y usa las citas [1] y [2] para dar una respuesta equilibrada.
+
+3. El Mecánico: Prueba de Aislamiento (No Contaminación)
+Prompt:
+
+"Tengo un ruido metálico al arrancar el motor en frío. ¿Qué debería revisar según mi manual?"
+
+Qué explicar aquí: Que este asistente tiene un contexto totalmente distinto. Cambias de "chip" y la IA ahora solo habla de mecánica.
+
+4. La Prueba de Seguridad (Blindaje de Datos)
+Prompt (seguido en el chat del mecánico):
+
+"¿Qué dice el manual sobre la dieta paleo o el consumo de lácteos?"
+
+Qué explicar aquí: El mecánico debería decir que no tiene información sobre eso.
+
+La frase clave para el vídeo: "Como ven, el sistema respeta el aislamiento. Aunque le pregunte cosas de nutrición, el asistente mecánico no tiene acceso a los documentos del nutricionista. Privacidad y orden total."
+
+5. Persistencia y Contexto (El cierre)
+Prompt (en cualquiera de los chats):
+
+"Dime más detalles sobre el segundo punto que mencionaste anteriormente."
+
+Qué explicar aquí: No mencionas el tema (ej. el motor o la leche), solo dices "el segundo punto".
+
+Acción: Refresca la página (F5) antes de mandarlo para demostrar que el historial sigue ahí guardado en Azure SQL. "El sistema recuerda de qué hablábamos incluso si cierro el navegador".

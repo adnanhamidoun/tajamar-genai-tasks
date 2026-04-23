@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aisla-RAG — Diagrama de Arquitectura</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0b0d;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    max-width: 700px;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .header .badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: rgba(99, 102, 241, 0.12);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  /* ── Canvas ── */
+  .canvas {
+    position: relative;
+    width: 1100px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* ── Layers ── */
+  .layer {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .layer-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #334155;
+    padding: 12px 0;
+    min-width: 30px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .layer-content {
+    flex: 1;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: #12141a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    border-color: rgba(255,255,255,0.12);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-size: 18px;
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  .card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 10px;
+  }
+
+  .tech-tag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Card color variants */
+  .card.frontend .card-icon { background: rgba(56, 189, 248, 0.12); color: #38bdf8; }
+  .card.api .card-icon      { background: rgba(52, 211, 153, 0.12); color: #34d399; }
+  .card.service .card-icon   { background: rgba(251, 191, 36, 0.12); color: #fbbf24; }
+  .card.data .card-icon      { background: rgba(167, 139, 250, 0.12); color: #a78bfa; }
+  .card.azure .card-icon     { background: rgba(96, 165, 250, 0.12); color: #60a5fa; }
+  .card.ai .card-icon        { background: rgba(244, 114, 182, 0.12); color: #f472b6; }
+
+  /* ── Flow Arrows ── */
+  .flow-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+    padding-left: 46px;
+  }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  .flow-arrow .line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #334155, transparent);
+  }
+
+  .flow-arrow svg {
+    width: 16px;
+    height: 16px;
+    color: #475569;
+  }
+
+  .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #334155;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 8px 0;
+    padding-left: 46px;
+  }
+
+  .arrow-down .shaft {
+    width: 1px;
+    height: 20px;
+    background: linear-gradient(180deg, #334155, transparent);
+  }
+
+  .arrow-down .head {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  /* ── Connector SVG ── */
+  .connectors-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Separator ── */
+  .separator {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.04);
+    margin: 8px 0 20px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 16px;
+    padding-left: 46px;
+  }
+
+  /* ── Pipeline Box ── */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex: 1;
+    background: #12141a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .pipeline-step {
+    flex: 1;
+    padding: 16px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+  }
+  .pipeline-step:last-child { border-right: none; }
+
+  .pipeline-step .step-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 4px;
+  }
+
+  .pipeline-step .step-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .pipeline-step .step-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+
+  .pipeline-step .step-detail {
+    font-size: 10px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  .pipeline-step::after {
+    content: '→';
+    position: absolute;
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #334155;
+    font-size: 12px;
+    z-index: 1;
+  }
+  .pipeline-step:last-child::after { display: none; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 48px;
+    text-align: center;
+    color: #334155;
+    font-size: 11px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; color: #1e293b; padding: 20px; }
+    .card { background: #f8fafc; border-color: #e2e8f0; }
+    .card:hover { transform: none; }
+    .header h1 { background: none; -webkit-text-fill-color: #0f172a; }
+    .tech-tag { background: #f1f5f9; color: #475569; }
+    .pipeline { background: #f8fafc; }
+    .pipeline-step { border-color: #e2e8f0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>Aisla-RAG Architecture</h1>
+  <p class="subtitle">
+    Sistema de Consulta Inteligente de Documentos con Retrieval-Augmented Generation.
+    <br>Arquitectura multi-capa desplegada en Azure con aislamiento total por asistente.
+  </p>
+  <span class="badge">v1.0 · Azure Cloud · Production</span>
+</div>
+
+<div class="canvas">
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--   CAPA 1: FRONTEND / CLIENTE                        -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="section-title">Capa de Presentación</div>
+
+  <div class="layer">
+    <div class="layer-label">FRONTEND</div>
+    <div class="layer-content">
+
+      <div class="card frontend">
+        <div class="card-icon">⚛️</div>
+        <div class="card-title">React SPA</div>
+        <div class="card-desc">Interfaz de usuario con sistema de asistentes, chat en tiempo real con streaming SSE, y gestión de documentos.</div>
+        <div class="card-tech">
+          <span class="tech-tag">React 18</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">Tailwind CSS v4</span>
+        </div>
+      </div>
+
+      <div class="card frontend">
+        <div class="card-icon">📡</div>
+        <div class="card-title">API Client (Axios)</div>
+        <div class="card-desc">Comunicación REST con el backend. Maneja tokens, errores y base URL configurable por entorno.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Axios</span>
+          <span class="tech-tag">SSE Fetch</span>
+          <span class="tech-tag">CORS</span>
+        </div>
+      </div>
+
+      <div class="card frontend">
+        <div class="card-icon">🧩</div>
+        <div class="card-title">Componentes</div>
+        <div class="card-desc">Sidebar con navegación, ThreadChat con streaming, DocPanel con dropzone, CreateAssistantModal.</div>
+        <div class="card-tech">
+          <span class="tech-tag">react-dropzone</span>
+          <span class="tech-tag">react-markdown</span>
+          <span class="tech-tag">lucide-react</span>
+          <span class="tech-tag">sonner</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="arrow-down">
+    <div class="shaft"></div>
+    <div class="head">▼</div>
+    <span>HTTPS · REST API · SSE Stream</span>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--   CAPA 2: API LAYER                                 -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="separator"></div>
+  <div class="section-title">Capa de API Gateway</div>
+
+  <div class="layer">
+    <div class="layer-label">API</div>
+    <div class="layer-content">
+
+      <div class="card api">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">FastAPI Application</div>
+        <div class="card-desc">Servidor ASGI con Application Factory pattern, middleware CORS, error handlers globales, y rutina de lifespan para autolimpieza selectiva.</div>
+        <div class="card-tech">
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">Uvicorn</span>
+          <span class="tech-tag">Pydantic v2</span>
+        </div>
+      </div>
+
+      <div class="card api">
+        <div class="card-icon">🔀</div>
+        <div class="card-title">Routers</div>
+        <div class="card-desc">
+          <strong>/api/v1/health</strong> — Health check<br>
+          <strong>/api/v1/assistants</strong> — CRUD asistentes<br>
+          <strong>/api/v1/assistants/{id}/chat</strong> — Chat SSE<br>
+          <strong>/api/v1/assistants/{id}/documents</strong> — Docs
+        </div>
+        <div class="card-tech">
+          <span class="tech-tag">APIRouter</span>
+          <span class="tech-tag">StreamingResponse</span>
+          <span class="tech-tag">Depends()</span>
+        </div>
+      </div>
+
+      <div class="card api">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">Schemas & Config</div>
+        <div class="card-desc">Validación de payloads con Pydantic. Configuración centralizada con pydantic-settings y variables de entorno (.env).</div>
+        <div class="card-tech">
+          <span class="tech-tag">BaseSettings</span>
+          <span class="tech-tag">schemas.py</span>
+          <span class="tech-tag">.env</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="arrow-down">
+    <div class="shaft"></div>
+    <div class="head">▼</div>
+    <span>Dependency Injection · Service Layer</span>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--   CAPA 3: SERVICIOS / LÓGICA DE NEGOCIO             -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="separator"></div>
+  <div class="section-title">Capa de Servicios (Lógica de Negocio)</div>
+
+  <div class="layer">
+    <div class="layer-label">SERVICIOS</div>
+    <div class="layer-content">
+
+      <div class="card service">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">RAGService</div>
+        <div class="card-desc">Motor de Retrieval-Augmented Generation. Orquesta la ingesta de documentos, la búsqueda híbrida (BM25 + vectores), y la generación de respuestas con contexto.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Hybrid Search</span>
+          <span class="tech-tag">Top-K 50</span>
+          <span class="tech-tag">OData Filters</span>
+          <span class="tech-tag">LangChain</span>
+        </div>
+      </div>
+
+      <div class="card service">
+        <div class="card-icon">📦</div>
+        <div class="card-title">StorageService</div>
+        <div class="card-desc">Gestión de archivos PDF en Azure Blob Storage. Upload, listado, borrado individual y limpieza masiva con preservación selectiva.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Azure Blob SDK</span>
+          <span class="tech-tag">Prefixed Blobs</span>
+          <span class="tech-tag">Selective Delete</span>
+        </div>
+      </div>
+
+      <div class="card service">
+        <div class="card-icon">👤</div>
+        <div class="card-title">AssistantService</div>
+        <div class="card-desc">CRUD de asistentes con generación automática de System Prompts vía Azure OpenAI. Protección del asistente técnico (UUID inmutable).</div>
+        <div class="card-tech">
+          <span class="tech-tag">UUID Fijo</span>
+          <span class="tech-tag">Prompt Gen</span>
+          <span class="tech-tag">SQLAlchemy 2.0</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="arrow-down">
+    <div class="shaft"></div>
+    <div class="head">▼</div>
+    <span>SDK Calls · Async I/O</span>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--   CAPA 4: DATA ACCESS + AZURE                       -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="separator"></div>
+  <div class="section-title">Capa de Datos y Servicios Azure</div>
+
+  <div class="layer">
+    <div class="layer-label">AZURE</div>
+    <div class="layer-content">
+
+      <div class="card azure">
+        <div class="card-icon">🗃️</div>
+        <div class="card-title">Azure SQL Database</div>
+        <div class="card-desc">Base de datos relacional con tablas <code>assistants</code> y <code>chat_messages</code>. Relación 1:N con cascade delete. Acceso async vía SQLAlchemy 2.0 + aioodbc.</div>
+        <div class="card-tech">
+          <span class="tech-tag">SQLAlchemy 2.0</span>
+          <span class="tech-tag">Async Sessions</span>
+          <span class="tech-tag">Mapped Types</span>
+        </div>
+      </div>
+
+      <div class="card azure">
+        <div class="card-icon">📂</div>
+        <div class="card-title">Azure Blob Storage</div>
+        <div class="card-desc">Almacenamiento de archivos PDF originales. Estructura de carpetas por asistente: <code>assistants/{id}/{uuid}-filename.pdf</code></div>
+        <div class="card-tech">
+          <span class="tech-tag">Containers</span>
+          <span class="tech-tag">Prefix Listing</span>
+          <span class="tech-tag">UUID Naming</span>
+        </div>
+      </div>
+
+      <div class="card ai">
+        <div class="card-icon">🔎</div>
+        <div class="card-title">Azure AI Search</div>
+        <div class="card-desc">Índice vectorial con campos <code>content_vector</code>, <code>assistant_id</code>, <code>filename</code>. Búsqueda híbrida BM25 + semántica con filtros OData de aislamiento.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Vector Index</span>
+          <span class="tech-tag">BM25 + kNN</span>
+          <span class="tech-tag">OData Filters</span>
+        </div>
+      </div>
+
+      <div class="card ai">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Azure OpenAI</div>
+        <div class="card-desc">Modelos GPT-4o para chat con streaming y text-embedding-ada-002 para generación de vectores. Acceso vía LangChain SDK.</div>
+        <div class="card-tech">
+          <span class="tech-tag">GPT-4o</span>
+          <span class="tech-tag">Embeddings ada-002</span>
+          <span class="tech-tag">Streaming SSE</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--   PIPELINE RAG                                       -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="separator" style="margin-top: 32px;"></div>
+  <div class="section-title">Pipeline RAG — Flujo de Datos</div>
+
+  <div class="layer">
+    <div class="layer-label" style="letter-spacing: 0.08em;">INGESTA</div>
+    <div class="layer-content">
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="step-num">01</div>
+          <div class="step-icon">📄</div>
+          <div class="step-name">Upload PDF</div>
+          <div class="step-detail">Blob Storage</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">02</div>
+          <div class="step-icon">📖</div>
+          <div class="step-name">Extracción</div>
+          <div class="step-detail">pdfplumber</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">03</div>
+          <div class="step-icon">✂️</div>
+          <div class="step-name">Chunking</div>
+          <div class="step-detail">1000 chars / 200 overlap</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">04</div>
+          <div class="step-icon">🧬</div>
+          <div class="step-name">Embeddings</div>
+          <div class="step-detail">ada-002 Batch</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">05</div>
+          <div class="step-icon">📡</div>
+          <div class="step-name">Indexación</div>
+          <div class="step-detail">AI Search Upload</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 16px;"></div>
+
+  <div class="layer">
+    <div class="layer-label" style="letter-spacing: 0.08em;">CONSULTA</div>
+    <div class="layer-content">
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="step-num">01</div>
+          <div class="step-icon">💬</div>
+          <div class="step-name">Pregunta</div>
+          <div class="step-detail">Usuario → API</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">02</div>
+          <div class="step-icon">🔎</div>
+          <div class="step-name">Hybrid Search</div>
+          <div class="step-detail">BM25 + Vector kNN</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">03</div>
+          <div class="step-icon">📋</div>
+          <div class="step-name">Contexto Top-50</div>
+          <div class="step-detail">OData Filter</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">04</div>
+          <div class="step-icon">🧠</div>
+          <div class="step-name">LLM + System Prompt</div>
+          <div class="step-detail">GPT-4o Streaming</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">05</div>
+          <div class="step-icon">✅</div>
+          <div class="step-name">Respuesta SSE</div>
+          <div class="step-detail">Con citas [1][2]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!--   DEPLOYMENT                                         -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div class="separator" style="margin-top: 32px;"></div>
+  <div class="section-title">Infraestructura de Despliegue</div>
+
+  <div class="layer">
+    <div class="layer-label">DEPLOY</div>
+    <div class="layer-content">
+
+      <div class="card data">
+        <div class="card-icon">🐳</div>
+        <div class="card-title">Docker Containers</div>
+        <div class="card-desc">Backend (Python 3.10 + Uvicorn) y Frontend (Node → Nginx) como imágenes Docker independientes publicadas en Azure Container Registry.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Dockerfile x2</span>
+          <span class="tech-tag">Multi-stage Build</span>
+          <span class="tech-tag">ACR</span>
+        </div>
+      </div>
+
+      <div class="card data">
+        <div class="card-icon">☁️</div>
+        <div class="card-title">Azure App Service</div>
+        <div class="card-desc">Hosting con Web Apps for Containers. CI/CD desde Azure Container Registry con auto-deploy on image push.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Linux Plan</span>
+          <span class="tech-tag">Custom Domain</span>
+          <span class="tech-tag">TLS/SSL</span>
+        </div>
+      </div>
+
+      <div class="card data">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Seguridad</div>
+        <div class="card-desc">Variables de entorno en App Service Settings. UUID técnico inmutable. Limpieza selectiva en startup. Firewall rules en SQL.</div>
+        <div class="card-tech">
+          <span class="tech-tag">Env Vars</span>
+          <span class="tech-tag">Firewall</span>
+          <span class="tech-tag">Lifespan Guards</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  Aisla-RAG Pro · Adnan · 2026 · Arquitectura de Referencia<br>
+  <span style="font-size: 10px; color: #1e293b; margin-top: 8px; display: inline-block;">
+    Imprime esta página (Ctrl+P) para exportar a PDF
+  </span>
+</div>
+
+</body>
+</html>

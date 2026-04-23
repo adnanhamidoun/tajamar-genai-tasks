@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aisla-rag-backend:latest
+    container_name: aisla_backend
+    ports:
+      - "8000:8000"
+    environment:
+      # En producción, estas variables se suelen inyectar desde Azure (App Settings)
+      # Aquí mapeamos el .env local solo para poder probar con docker-compose up
+      - DEBUG=False
+      - APP_ENV=production
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - aisla-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # IMPORTANTE: En docker-compose local, apunta a http://localhost:8000/api/v1
+        # Si lo despliegas a la nube de verdad, deberás cambiar esto o pasarlo en el pipeline CI/CD:
+        # VITE_API_URL=https://tu-app-backend.azurewebsites.net/api/v1
+        - VITE_API_URL=http://localhost:8000/api/v1
+    image: aisla-rag-frontend:latest
+    container_name: aisla_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - aisla-network
+
+networks:
+  aisla-network:
+    driver: bridge

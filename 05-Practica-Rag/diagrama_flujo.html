@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Aisla-RAG — Diagrama de Flujo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0f1117;color:#e2e8f0;display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px;min-height:100vh}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.03em;margin-bottom:6px;color:#f1f5f9}
+  .sub{font-size:13px;color:#64748b;margin-bottom:40px;text-align:center;max-width:500px;line-height:1.6}
+  .diagram-wrap{width:1050px;max-width:100%;overflow-x:auto}
+  svg text{font-family:'Inter',sans-serif}
+  .section-title{font-size:22px;font-weight:700;color:#f1f5f9;margin:48px 0 8px;letter-spacing:-0.02em;text-align:center}
+  .section-sub{font-size:13px;color:#64748b;margin-bottom:24px;text-align:center}
+  @media print{body{background:#fff;color:#1e293b}h1,.section-title{color:#0f172a}.sub,.section-sub{color:#64748b}}
+</style>
+</head>
+<body>
+
+<h1>Aisla-RAG · Arquitectura del Sistema</h1>
+<p class="sub">Flujo completo desde la pregunta del usuario hasta la respuesta con citas. Cada número indica el orden de ejecución.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  DIAGRAMA 1: FLUJO DE CONSULTA (pregunta → respuesta) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="section-title">Flujo de Consulta</h2>
+<p class="section-sub">¿Qué pasa cuando un usuario hace una pregunta?</p>
+
+<div class="diagram-wrap">
+<svg viewBox="0 0 1020 520" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6366f1"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+    <filter id="glow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/></filter>
+  </defs>
+
+  <!-- Background grid dots -->
+  <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="10" cy="10" r="0.5" fill="#1e293b"/>
+  </pattern>
+  <rect width="1020" height="520" fill="url(#dots)" rx="12"/>
+
+  <!-- ── USUARIO ── -->
+  <rect x="30" y="200" width="130" height="120" rx="12" fill="#1a1d27" stroke="#334155" filter="url(#glow)"/>
+  <text x="95" y="250" text-anchor="middle" font-size="32">👤</text>
+  <text x="95" y="278" text-anchor="middle" font-size="12" font-weight="700" fill="#f1f5f9">Usuario</text>
+  <text x="95" y="296" text-anchor="middle" font-size="9" fill="#64748b">Navegador Web</text>
+
+  <!-- ── REACT FRONTEND ── -->
+  <rect x="220" y="200" width="130" height="120" rx="12" fill="#1a1d27" stroke="#38bdf8" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="285" y="245" text-anchor="middle" font-size="28">⚛️</text>
+  <text x="285" y="273" text-anchor="middle" font-size="12" font-weight="700" fill="#38bdf8">React Frontend</text>
+  <text x="285" y="291" text-anchor="middle" font-size="9" fill="#64748b">Vite + Tailwind</text>
+  <text x="285" y="305" text-anchor="middle" font-size="9" fill="#64748b">SSE Streaming</text>
+
+  <!-- ── FASTAPI BACKEND ── -->
+  <rect x="420" y="185" width="160" height="150" rx="12" fill="#1a1d27" stroke="#34d399" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="500" y="230" text-anchor="middle" font-size="28">🚀</text>
+  <text x="500" y="258" text-anchor="middle" font-size="12" font-weight="700" fill="#34d399">FastAPI Backend</text>
+  <text x="500" y="276" text-anchor="middle" font-size="9" fill="#64748b">RAGService</text>
+  <text x="500" y="290" text-anchor="middle" font-size="9" fill="#64748b">StorageService</text>
+  <text x="500" y="304" text-anchor="middle" font-size="9" fill="#64748b">AssistantService</text>
+  <text x="500" y="322" text-anchor="middle" font-size="8" fill="#475569">Uvicorn · Python 3.10</text>
+
+  <!-- ── AZURE AI SEARCH ── -->
+  <rect x="680" y="60" width="150" height="120" rx="12" fill="#1a1d27" stroke="#a78bfa" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="755" y="105" text-anchor="middle" font-size="28">🔎</text>
+  <text x="755" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#a78bfa">Azure AI Search</text>
+  <text x="755" y="150" text-anchor="middle" font-size="9" fill="#64748b">Hybrid Search</text>
+  <text x="755" y="164" text-anchor="middle" font-size="9" fill="#64748b">BM25 + Vector kNN</text>
+
+  <!-- ── AZURE OPENAI ── -->
+  <rect x="680" y="220" width="150" height="110" rx="12" fill="#1a1d27" stroke="#f472b6" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="755" y="262" text-anchor="middle" font-size="28">🧠</text>
+  <text x="755" y="290" text-anchor="middle" font-size="11" font-weight="700" fill="#f472b6">Azure OpenAI</text>
+  <text x="755" y="307" text-anchor="middle" font-size="9" fill="#64748b">GPT-4o · Embeddings</text>
+  <text x="755" y="320" text-anchor="middle" font-size="8" fill="#475569">ada-002</text>
+
+  <!-- ── AZURE SQL ── -->
+  <rect x="680" y="370" width="150" height="110" rx="12" fill="#1a1d27" stroke="#60a5fa" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="755" y="412" text-anchor="middle" font-size="28">🗃️</text>
+  <text x="755" y="440" text-anchor="middle" font-size="11" font-weight="700" fill="#60a5fa">Azure SQL</text>
+  <text x="755" y="457" text-anchor="middle" font-size="9" fill="#64748b">Asistentes + Mensajes</text>
+  <text x="755" y="470" text-anchor="middle" font-size="8" fill="#475569">SQLAlchemy 2.0 Async</text>
+
+  <!-- ═══════ FLECHAS CON NÚMEROS ═══════ -->
+
+  <!-- 1. Usuario → React -->
+  <line x1="160" y1="260" x2="218" y2="260" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <circle cx="189" cy="248" r="10" fill="#6366f1"/>
+  <text x="189" y="252" text-anchor="middle" font-size="9" font-weight="700" fill="white">1</text>
+  <text x="189" y="240" text-anchor="middle" font-size="7" fill="#818cf8">pregunta</text>
+
+  <!-- 2. React → FastAPI -->
+  <line x1="350" y1="260" x2="418" y2="260" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <circle cx="384" cy="248" r="10" fill="#6366f1"/>
+  <text x="384" y="252" text-anchor="middle" font-size="9" font-weight="700" fill="white">2</text>
+  <text x="384" y="240" text-anchor="middle" font-size="7" fill="#818cf8">POST /chat</text>
+
+  <!-- 3. FastAPI → AI Search (buscar contexto) -->
+  <line x1="560" y1="230" x2="560" y2="120" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="560" y1="120" x2="678" y2="120" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow)"/>
+  <circle cx="620" cy="108" r="10" fill="#a78bfa"/>
+  <text x="620" y="112" text-anchor="middle" font-size="9" font-weight="700" fill="white">3</text>
+  <text x="620" y="100" text-anchor="middle" font-size="7" fill="#c4b5fd">hybrid search</text>
+
+  <!-- 4. AI Search devuelve fragmentos -->
+  <line x1="678" y1="140" x2="590" y2="140" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="590" y1="140" x2="590" y2="240" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <circle cx="634" cy="152" r="10" fill="#a78bfa"/>
+  <text x="634" y="156" text-anchor="middle" font-size="9" font-weight="700" fill="white">4</text>
+  <text x="634" y="168" text-anchor="middle" font-size="7" fill="#c4b5fd">Top-50 chunks</text>
+
+  <!-- 5. FastAPI → OpenAI (generar respuesta con contexto) -->
+  <line x1="580" y1="270" x2="678" y2="270" stroke="#f472b6" stroke-width="2" marker-end="url(#arrow)"/>
+  <circle cx="630" cy="258" r="10" fill="#f472b6"/>
+  <text x="630" y="262" text-anchor="middle" font-size="9" font-weight="700" fill="white">5</text>
+  <text x="630" y="250" text-anchor="middle" font-size="7" fill="#f9a8d4">prompt + contexto</text>
+
+  <!-- 6. OpenAI devuelve stream -->
+  <line x1="678" y1="295" x2="580" y2="295" stroke="#f472b6" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow)"/>
+  <circle cx="630" cy="306" r="10" fill="#f472b6"/>
+  <text x="630" y="310" text-anchor="middle" font-size="9" font-weight="700" fill="white">6</text>
+  <text x="630" y="322" text-anchor="middle" font-size="7" fill="#f9a8d4">tokens stream</text>
+
+  <!-- 7. FastAPI guarda en SQL -->
+  <line x1="520" y1="335" x2="520" y2="425" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="520" y1="425" x2="678" y2="425" stroke="#60a5fa" stroke-width="2" marker-end="url(#arrow)"/>
+  <circle cx="600" cy="413" r="10" fill="#60a5fa"/>
+  <text x="600" y="417" text-anchor="middle" font-size="9" font-weight="700" fill="white">7</text>
+  <text x="600" y="405" text-anchor="middle" font-size="7" fill="#93c5fd">save messages</text>
+
+  <!-- 8. FastAPI → React (SSE stream) -->
+  <line x1="420" y1="300" x2="350" y2="300" stroke="#34d399" stroke-width="2" marker-end="url(#arrowG)"/>
+  <circle cx="385" cy="312" r="10" fill="#34d399"/>
+  <text x="385" y="316" text-anchor="middle" font-size="9" font-weight="700" fill="white">8</text>
+  <text x="385" y="328" text-anchor="middle" font-size="7" fill="#6ee7b7">SSE tokens</text>
+
+  <!-- 9. React → Usuario (renderiza respuesta) -->
+  <line x1="220" y1="300" x2="160" y2="300" stroke="#34d399" stroke-width="2" marker-end="url(#arrowG)"/>
+  <circle cx="190" cy="312" r="10" fill="#34d399"/>
+  <text x="190" y="316" text-anchor="middle" font-size="9" font-weight="700" fill="white">9</text>
+  <text x="190" y="328" text-anchor="middle" font-size="7" fill="#6ee7b7">respuesta</text>
+
+  <!-- Leyenda -->
+  <rect x="30" y="420" width="300" height="80" rx="8" fill="#12141a" stroke="#1e293b"/>
+  <text x="46" y="442" font-size="10" font-weight="700" fill="#94a3b8">LEYENDA</text>
+  <line x1="46" y1="458" x2="76" y2="458" stroke="#6366f1" stroke-width="2"/>
+  <text x="82" y="462" font-size="9" fill="#94a3b8">Request del usuario</text>
+  <line x1="46" y1="475" x2="76" y2="475" stroke="#34d399" stroke-width="2"/>
+  <text x="82" y="479" font-size="9" fill="#94a3b8">Response al usuario</text>
+  <line x1="170" y1="458" x2="200" y2="458" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4"/>
+  <text x="206" y="462" font-size="9" fill="#94a3b8">Búsqueda vectorial</text>
+  <line x1="170" y1="475" x2="200" y2="475" stroke="#f472b6" stroke-width="2"/>
+  <text x="206" y="479" font-size="9" fill="#94a3b8">Generación LLM</text>
+</svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  DIAGRAMA 2: FLUJO DE INGESTA DE DOCUMENTOS            -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="section-title" style="margin-top:64px">Flujo de Ingesta de Documentos</h2>
+<p class="section-sub">¿Qué pasa cuando un usuario sube un PDF?</p>
+
+<div class="diagram-wrap">
+<svg viewBox="0 0 1020 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+    </marker>
+  </defs>
+  <pattern id="dots2" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="10" cy="10" r="0.5" fill="#1e293b"/>
+  </pattern>
+  <rect width="1020" height="300" fill="url(#dots2)" rx="12"/>
+
+  <!-- 1. Usuario sube PDF -->
+  <rect x="20" y="90" width="120" height="120" rx="12" fill="#1a1d27" stroke="#334155" filter="url(#glow)"/>
+  <text x="80" y="138" text-anchor="middle" font-size="30">📄</text>
+  <text x="80" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#f1f5f9">Upload PDF</text>
+  <text x="80" y="184" text-anchor="middle" font-size="9" fill="#64748b">Drag & Drop</text>
+
+  <!-- 2. Blob Storage -->
+  <rect x="190" y="90" width="130" height="120" rx="12" fill="#1a1d27" stroke="#60a5fa" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="255" y="138" text-anchor="middle" font-size="30">📦</text>
+  <text x="255" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#60a5fa">Blob Storage</text>
+  <text x="255" y="182" text-anchor="middle" font-size="9" fill="#64748b">Guarda PDF original</text>
+  <text x="255" y="196" text-anchor="middle" font-size="8" fill="#475569">assistants/{id}/</text>
+
+  <!-- 3. Extracción texto -->
+  <rect x="370" y="90" width="130" height="120" rx="12" fill="#1a1d27" stroke="#fbbf24" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="435" y="138" text-anchor="middle" font-size="30">📖</text>
+  <text x="435" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#fbbf24">Extracción</text>
+  <text x="435" y="182" text-anchor="middle" font-size="9" fill="#64748b">pdfplumber</text>
+  <text x="435" y="196" text-anchor="middle" font-size="8" fill="#475569">Texto plano</text>
+
+  <!-- 4. Chunking -->
+  <rect x="550" y="90" width="130" height="120" rx="12" fill="#1a1d27" stroke="#fbbf24" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="615" y="138" text-anchor="middle" font-size="30">✂️</text>
+  <text x="615" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#fbbf24">Chunking</text>
+  <text x="615" y="182" text-anchor="middle" font-size="9" fill="#64748b">1000 chars</text>
+  <text x="615" y="196" text-anchor="middle" font-size="8" fill="#475569">200 overlap</text>
+
+  <!-- 5. Embeddings -->
+  <rect x="730" y="90" width="130" height="120" rx="12" fill="#1a1d27" stroke="#f472b6" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="795" y="138" text-anchor="middle" font-size="30">🧬</text>
+  <text x="795" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#f472b6">Embeddings</text>
+  <text x="795" y="182" text-anchor="middle" font-size="9" fill="#64748b">Azure OpenAI</text>
+  <text x="795" y="196" text-anchor="middle" font-size="8" fill="#475569">ada-002 batch</text>
+
+  <!-- 6. AI Search Index -->
+  <rect x="900" y="90" width="100" height="120" rx="12" fill="#1a1d27" stroke="#a78bfa" stroke-opacity="0.4" filter="url(#glow)"/>
+  <text x="950" y="138" text-anchor="middle" font-size="30">🔎</text>
+  <text x="950" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#a78bfa">AI Search</text>
+  <text x="950" y="182" text-anchor="middle" font-size="9" fill="#64748b">Índice vectorial</text>
+
+  <!-- Flechas -->
+  <line x1="140" y1="150" x2="188" y2="150" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr2)"/>
+  <circle cx="164" cy="138" r="9" fill="#fbbf24"/><text x="164" y="142" text-anchor="middle" font-size="8" font-weight="700" fill="#1a1d27">1</text>
+
+  <line x1="320" y1="150" x2="368" y2="150" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr2)"/>
+  <circle cx="344" cy="138" r="9" fill="#fbbf24"/><text x="344" y="142" text-anchor="middle" font-size="8" font-weight="700" fill="#1a1d27">2</text>
+
+  <line x1="500" y1="150" x2="548" y2="150" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr2)"/>
+  <circle cx="524" cy="138" r="9" fill="#fbbf24"/><text x="524" y="142" text-anchor="middle" font-size="8" font-weight="700" fill="#1a1d27">3</text>
+
+  <line x1="680" y1="150" x2="728" y2="150" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr2)"/>
+  <circle cx="704" cy="138" r="9" fill="#fbbf24"/><text x="704" y="142" text-anchor="middle" font-size="8" font-weight="700" fill="#1a1d27">4</text>
+
+  <line x1="860" y1="150" x2="898" y2="150" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr2)"/>
+  <circle cx="879" cy="138" r="9" fill="#fbbf24"/><text x="879" y="142" text-anchor="middle" font-size="8" font-weight="700" fill="#1a1d27">5</text>
+
+  <!-- Etiquetas debajo -->
+  <text x="510" y="260" text-anchor="middle" font-size="11" fill="#475569" font-weight="500">Pipeline ejecutado por RAGService.ingest_document() dentro del Backend FastAPI</text>
+  <text x="510" y="278" text-anchor="middle" font-size="10" fill="#334155">Cada chunk se sube con assistant_id para aislamiento total de datos por asistente</text>
+</svg>
+</div>
+
+<p style="margin-top:48px;color:#334155;font-size:11px;text-align:center">
+  Aisla-RAG Pro · Adnan · 2026 · Pulsa Ctrl+P para exportar a PDF
+</p>
+</body>
+</html>
