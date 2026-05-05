@@ -101,12 +101,6 @@ graph TD
 
 ---
 
-## 👥 Autores
-- **Adnan** - *Arquitectura de IA & Frontend Elite*
-- [Tu Compañero/a] - *Backend & Estrategia de Negocio*
-
----
-
 ## 💼 Propuesta de Valor (Business Pitch)
 DAIL Nutrition se posiciona en el mercado de **Health & Fitness SaaS** con una diferenciación clara: la eliminación de la fricción. Mientras MyFitnessPal compite por la base de datos más grande, nosotros competimos por la **velocidad de registro**. 
 
