@@ -107,6 +107,7 @@ export default function DashboardPage() {
   
     // 2. Background DB Update
     const supabase = createClient();
+    // @ts-ignore
     const { data, error } = await supabase.from("meals").update({
       food_name: newMeal.food_name,
       calories: newMeal.calories,
@@ -153,7 +154,9 @@ export default function DashboardPage() {
         setBankStatus(bankRes);
 
         // Si el perfil está incompleto, mandar a onboarding
-        const p = profileRes.data as any;
+        const p = profileRes.data;
+
+        // @ts-ignore
         if (!p || !p.age || !p.height || !p.fitness_goal) {
           router.push("/onboarding");
           return;
