@@ -36,7 +36,7 @@ export async function logActivity(data: {
   const baseMet = MET_VALUES[data.sport_type] || 5.0;
   const intensityFactor = INTENSITY_MULTIPLIERS[data.intensity] || 1.0;
   const caloriesBurned = Math.round((baseMet * weight * (data.duration_mins / 60)) * intensityFactor);
-
+  console.log("[logActivity] Iniciando registro:", { data, weight, caloriesBurned });
   const { error } = await supabase.from("activities").insert({
     user_id: user.id,
     activity_type: data.sport_type,
@@ -45,8 +45,12 @@ export async function logActivity(data: {
     calories_burned: caloriesBurned
   });
 
-  if (error) return { success: false, error: error.message };
+  if (error) {
+    console.error("[logActivity] Error en Supabase:", error);
+    return { success: false, error: error.message };
+  }
 
+  console.log("[logActivity] Registro exitoso");
   revalidatePath("/dashboard");
   revalidatePath("/bank");
   return { success: true, calories: caloriesBurned };

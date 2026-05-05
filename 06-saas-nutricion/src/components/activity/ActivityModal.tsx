@@ -61,7 +61,7 @@ export default function ActivityModal({ open, onOpenChange }: { open: boolean, o
       toast.success(`+${result.calories} kcal a la hucha.`);
       onOpenChange(false);
     } else {
-      toast.error("Error al registrar");
+      toast.error(result.error || "Error al registrar");
     }
   };
 
