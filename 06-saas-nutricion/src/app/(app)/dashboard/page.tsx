@@ -178,7 +178,7 @@ export default function DashboardPage() {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      await supabase.from('profiles').update({ weight: newWeight }).eq('id', user.id);
+      await supabase.from('profiles').update({ current_weight: newWeight }).eq('id', user.id);
     }
     
     const today = new Date();

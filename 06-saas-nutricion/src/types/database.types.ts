@@ -67,6 +67,7 @@ export interface Database {
           fat: number
           image_url: string | null
           health_tip: string | null
+          serving_size_g: number | null
           meal_type: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'other'
         }
         Insert: {
@@ -80,6 +81,7 @@ export interface Database {
           fat?: number
           image_url?: string | null
           health_tip?: string | null
+          serving_size_g?: number | null
           meal_type?: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'other'
         }
         Update: {
@@ -93,6 +95,7 @@ export interface Database {
           fat?: number
           image_url?: string | null
           health_tip?: string | null
+          serving_size_g?: number | null
           meal_type?: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'other'
         }
         Relationships: [
