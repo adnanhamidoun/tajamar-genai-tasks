@@ -18,6 +18,14 @@ export interface Database {
           daily_goal_carbs: number | null
           daily_goal_fat: number | null
           onboarding_complete: boolean
+          age: number | null
+          height: number | null
+          gender: 'male' | 'female' | null
+          target_weight: number | null
+          target_weeks: number | null
+          sport_type: string | null
+          activity_level: string | null
+          coach_personality: string | null
         }
         Insert: {
           id: string
@@ -31,6 +39,14 @@ export interface Database {
           daily_goal_carbs?: number | null
           daily_goal_fat?: number | null
           onboarding_complete?: boolean
+          age?: number | null
+          height?: number | null
+          gender?: 'male' | 'female' | null
+          target_weight?: number | null
+          target_weeks?: number | null
+          sport_type?: string | null
+          activity_level?: string | null
+          coach_personality?: string | null
         }
         Update: {
           id?: string
@@ -44,6 +60,14 @@ export interface Database {
           daily_goal_carbs?: number | null
           daily_goal_fat?: number | null
           onboarding_complete?: boolean
+          age?: number | null
+          height?: number | null
+          gender?: 'male' | 'female' | null
+          target_weight?: number | null
+          target_weeks?: number | null
+          sport_type?: string | null
+          activity_level?: string | null
+          coach_personality?: string | null
         }
         Relationships: [
           {
