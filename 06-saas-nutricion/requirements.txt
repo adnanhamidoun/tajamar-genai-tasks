@@ -1,0 +1,23 @@
+# DAIL Nutrition - Core Dependencies
+# Este proyecto es una aplicación Full-Stack con Next.js 15.
+# Las dependencias se gestionan mediante npm (package.json).
+# Se listan aquí para referencia de entrega técnica.
+
+# Framework & UI
+next==15.x
+react==19.x
+framer-motion==12.x
+lucide-react==0.x
+tailwind-css==4.x
+
+# Backend & Database
+@supabase/supabase-js==2.x
+@supabase/ssr==0.x
+
+# Generative AI
+openai==4.x (Azure OpenAI Integration)
+
+# Utilities
+sonner==1.x (Toasts)
+clsx==2.x
+tailwind-merge==2.x
