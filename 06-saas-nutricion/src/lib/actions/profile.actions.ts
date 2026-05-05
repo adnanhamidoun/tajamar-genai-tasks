@@ -15,6 +15,7 @@ export interface UpdateProfileParams {
   target_weight?: number;
   target_weeks?: number;
   coach_personality?: string;
+  target_calories?: number;
 }
 
 export async function updateProfile(params: UpdateProfileParams | FormData) {

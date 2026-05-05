@@ -39,9 +39,9 @@ export async function logActivity(data: {
 
   const { error } = await supabase.from("activities").insert({
     user_id: user.id,
-    sport_type: data.sport_type,
-    duration_mins: data.duration_mins,
-    intensity: data.intensity,
+    activity_type: data.sport_type,
+    duration_min: data.duration_mins,
+    intensity: data.intensity as any,
     calories_burned: caloriesBurned
   });
 

@@ -63,7 +63,7 @@ export default function MealItem({ meal }: { meal: Meal }) {
     setIsUpdating(true);
     try {
       const result = await updateMeal(meal.id, {
-        name: editName,
+        food_name: editName,
         calories: Number(editCalories),
         protein: Number(editProtein),
         carbs: Number(editCarbs),

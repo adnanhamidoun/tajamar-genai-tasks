@@ -26,6 +26,8 @@ export interface Database {
           sport_type: string | null
           activity_level: string | null
           coach_personality: string | null
+          flex_bank_balance: number | null
+          audit_period_start: string | null
         }
         Insert: {
           id: string
@@ -47,6 +49,8 @@ export interface Database {
           sport_type?: string | null
           activity_level?: string | null
           coach_personality?: string | null
+          flex_bank_balance?: number | null
+          audit_period_start?: string | null
         }
         Update: {
           id?: string
@@ -68,6 +72,8 @@ export interface Database {
           sport_type?: string | null
           activity_level?: string | null
           coach_personality?: string | null
+          flex_bank_balance?: number | null
+          audit_period_start?: string | null
         }
         Relationships: [
           {
@@ -92,6 +98,7 @@ export interface Database {
           image_url: string | null
           health_tip: string | null
           serving_size_g: number | null
+          quantity: number | null
           meal_type: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'other'
         }
         Insert: {
@@ -106,6 +113,7 @@ export interface Database {
           image_url?: string | null
           health_tip?: string | null
           serving_size_g?: number | null
+          quantity?: number | null
           meal_type?: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'other'
         }
         Update: {
@@ -120,6 +128,7 @@ export interface Database {
           image_url?: string | null
           health_tip?: string | null
           serving_size_g?: number | null
+          quantity?: number | null
           meal_type?: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'other'
         }
         Relationships: [
@@ -140,7 +149,7 @@ export interface Database {
           activity_type: string
           duration_min: number
           calories_burned: number
-          intensity: 'low' | 'medium' | 'high'
+          intensity: 'low' | 'moderate' | 'high' | 'elite'
           notes: string | null
         }
         Insert: {
@@ -150,7 +159,7 @@ export interface Database {
           activity_type: string
           duration_min: number
           calories_burned?: number
-          intensity?: 'low' | 'medium' | 'high'
+          intensity?: 'low' | 'moderate' | 'high' | 'elite'
           notes?: string | null
         }
         Update: {
@@ -160,7 +169,7 @@ export interface Database {
           activity_type?: string
           duration_min?: number
           calories_burned?: number
-          intensity?: 'low' | 'medium' | 'high'
+          intensity?: 'low' | 'moderate' | 'high' | 'elite'
           notes?: string | null
         }
         Relationships: [

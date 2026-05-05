@@ -88,9 +88,9 @@ export async function adminCheat(command: string, value?: any) {
           const act = activityPool[Math.floor(Math.random() * activityPool.length)];
           const { error: aErr } = await supabase.from("activities").insert({
             user_id: user.id,
-            sport_type: act.type,
-            duration_mins: act.duration,
-            intensity: act.intensity,
+            activity_type: act.type,
+            duration_min: act.duration,
+            intensity: act.intensity as any,
             calories_burned: act.cals,
             created_at: day.toISOString()
           });

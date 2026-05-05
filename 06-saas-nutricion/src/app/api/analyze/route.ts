@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: getSystemPrompt(profile?.coach_personality),
+          content: getSystemPrompt(profile?.coach_personality || undefined),
         },
         {
           role: 'user',
