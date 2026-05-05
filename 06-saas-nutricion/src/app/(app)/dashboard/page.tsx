@@ -114,7 +114,7 @@ export default function DashboardPage() {
       carbs: newMeal.carbs,
       fat: newMeal.fat,
       serving_size_g: newMeal.serving_size_g
-    }).eq("id", meal.id).select();
+    } as any).eq("id", meal.id).select();
     
     // 3. Rollback on error or silent failure (No RLS UPDATE policy)
     if (error || !data || data.length === 0) {
@@ -153,7 +153,7 @@ export default function DashboardPage() {
         setBankStatus(bankRes);
 
         // Si el perfil está incompleto, mandar a onboarding
-        const p = profileRes.data;
+        const p = profileRes.data as any;
         if (!p || !p.age || !p.height || !p.fitness_goal) {
           router.push("/onboarding");
           return;
