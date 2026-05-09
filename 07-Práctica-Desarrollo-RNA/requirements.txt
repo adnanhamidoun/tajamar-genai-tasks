@@ -1,0 +1,11 @@
+kagglehub
+pandas
+matplotlib
+seaborn
+jinja2
+scikit-learn
+tensorflow
+flask
+numpy
+joblib
+requests
