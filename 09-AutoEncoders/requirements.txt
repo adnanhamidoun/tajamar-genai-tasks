@@ -1,0 +1,27 @@
+# Core cientifico
+numpy
+pandas
+
+# Visualizacion
+matplotlib
+seaborn
+
+# Imagenes y datasets
+pillow
+pyyaml
+tqdm
+
+# Metricas y evaluacion
+scikit-learn
+
+# PyTorch con CUDA para GPU NVIDIA.
+# El wheel incluye runtime CUDA; no hace falta instalar CUDA Toolkit aparte.
+--extra-index-url https://download.pytorch.org/whl/cu126
+torch
+torchvision
+
+# Notebook
+jupyter
+notebook
+ipykernel
+ipywidgets
