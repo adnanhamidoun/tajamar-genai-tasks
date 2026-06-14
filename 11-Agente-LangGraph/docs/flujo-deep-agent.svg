@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Flujo del Deep Agent Profe10</title>
+  <desc id="desc">Diagrama del deep agent Profe10 con entrada de usuario, planificacion, herramientas, modelo Azure AI Foundry, salida y trazas en LangSmith.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 34px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #475569; }
+      .box { stroke-width: 2; rx: 14; filter: url(#shadow); }
+      .box-title { font: 700 19px Arial, sans-serif; fill: #0f172a; }
+      .box-text { font: 400 15px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .note { font: 700 15px Arial, sans-serif; fill: #ffffff; }
+      .small { font: 400 13px Arial, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="760"/>
+
+  <text x="70" y="68" class="title">Flujo del Deep Agent Profe10</text>
+  <text x="70" y="100" class="subtitle">Un agente opcional con Deep Agents: planifica, usa herramientas, genera una respuesta y deja trazas.</text>
+
+  <rect x="70" y="150" width="210" height="92" rx="14" fill="#dbeafe" stroke="#2563eb" class="box"/>
+  <text x="175" y="187" text-anchor="middle" class="box-title">Usuario</text>
+  <text x="175" y="215" text-anchor="middle" class="box-text">Pide una sesion</text>
+  <text x="175" y="235" text-anchor="middle" class="box-text">de estudio</text>
+
+  <rect x="370" y="136" width="270" height="120" rx="14" fill="#fef3c7" stroke="#d97706" class="box"/>
+  <text x="505" y="176" text-anchor="middle" class="box-title">Deep Agent Profe10</text>
+  <text x="505" y="204" text-anchor="middle" class="box-text">create_deep_agent</text>
+  <text x="505" y="226" text-anchor="middle" class="box-text">planificacion + herramientas</text>
+
+  <rect x="735" y="150" width="245" height="92" rx="14" fill="#ccfbf1" stroke="#0f766e" class="box"/>
+  <text x="857" y="187" text-anchor="middle" class="box-title">Azure AI Foundry</text>
+  <text x="857" y="215" text-anchor="middle" class="box-text">Modelo desplegado</text>
+
+  <path d="M280 196 H370" class="arrow"/>
+  <path d="M640 196 H735" class="arrow"/>
+
+  <rect x="105" y="370" width="260" height="110" rx="14" fill="#dcfce7" stroke="#16a34a" class="box"/>
+  <text x="235" y="409" text-anchor="middle" class="box-title">estimate_study_blocks</text>
+  <text x="235" y="437" text-anchor="middle" class="box-text">Reparte el tiempo</text>
+  <text x="235" y="459" text-anchor="middle" class="box-text">en bloques de estudio</text>
+
+  <rect x="470" y="370" width="260" height="110" rx="14" fill="#ede9fe" stroke="#7c3aed" class="box"/>
+  <text x="600" y="409" text-anchor="middle" class="box-title">create_checklist</text>
+  <text x="600" y="437" text-anchor="middle" class="box-text">Genera tareas</text>
+  <text x="600" y="459" text-anchor="middle" class="box-text">para revisar y practicar</text>
+
+  <rect x="835" y="370" width="260" height="110" rx="14" fill="#ffe4e6" stroke="#e11d48" class="box"/>
+  <text x="965" y="409" text-anchor="middle" class="box-title">save_study_report</text>
+  <text x="965" y="437" text-anchor="middle" class="box-text">Guarda el resultado</text>
+  <text x="965" y="459" text-anchor="middle" class="box-text">en outputs/*.md</text>
+
+  <path d="M455 256 C380 300 285 320 245 370" class="arrow"/>
+  <path d="M505 256 V370" class="arrow"/>
+  <path d="M555 256 C700 310 900 320 955 370" class="arrow"/>
+
+  <rect x="330" y="590" width="255" height="92" rx="14" fill="#e0f2fe" stroke="#0284c7" class="box"/>
+  <text x="457" y="627" text-anchor="middle" class="box-title">Respuesta final</text>
+  <text x="457" y="655" text-anchor="middle" class="box-text">Plan claro y accionable</text>
+
+  <rect x="695" y="590" width="260" height="92" rx="14" fill="#e2e8f0" stroke="#475569" class="box"/>
+  <text x="825" y="627" text-anchor="middle" class="box-title">LangSmith</text>
+  <text x="825" y="655" text-anchor="middle" class="box-text">Traza planificacion, herramientas</text>
+
+  <path d="M235 480 C270 555 370 565 420 590" class="arrow"/>
+  <path d="M600 480 C575 540 515 560 475 590" class="arrow"/>
+  <path d="M965 480 C875 555 720 565 585 620" class="arrow"/>
+  <path d="M585 636 H695" class="arrow"/>
+
+  <rect x="70" y="705" width="1060" height="34" rx="17" fill="#0f172a"/>
+  <text x="600" y="727" text-anchor="middle" class="note">Idea clave: el Deep Agent decide y usa herramientas; el agente normal sigue un grafo definido por nosotros.</text>
+</svg>
